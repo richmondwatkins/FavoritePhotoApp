@@ -14,6 +14,8 @@
 		5D592A5A19F05F2200748C76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D592A5919F05F2200748C76 /* Images.xcassets */; };
 		5D592A5D19F05F2200748C76 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D592A5B19F05F2200748C76 /* LaunchScreen.xib */; };
 		5D592A6919F05F2200748C76 /* FavoritePhotosChallengeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D592A6819F05F2200748C76 /* FavoritePhotosChallengeTests.m */; };
+		5D592A7719F071C000748C76 /* CollectionViewImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D592A7619F071C000748C76 /* CollectionViewImageCell.m */; };
+		5D592A7A19F0811200748C76 /* InstagramImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D592A7919F0811200748C76 /* InstagramImage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		5D592A6219F05F2200748C76 /* FavoritePhotosChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FavoritePhotosChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D592A6719F05F2200748C76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D592A6819F05F2200748C76 /* FavoritePhotosChallengeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FavoritePhotosChallengeTests.m; sourceTree = "<group>"; };
+		5D592A7519F071C000748C76 /* CollectionViewImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionViewImageCell.h; path = ../CollectionViewImageCell.h; sourceTree = "<group>"; };
+		5D592A7619F071C000748C76 /* CollectionViewImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionViewImageCell.m; path = ../CollectionViewImageCell.m; sourceTree = "<group>"; };
+		5D592A7819F0811200748C76 /* InstagramImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstagramImage.h; path = ../InstagramImage.h; sourceTree = "<group>"; };
+		5D592A7919F0811200748C76 /* InstagramImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstagramImage.m; path = ../InstagramImage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,10 @@
 		5D592A4B19F05F2200748C76 /* FavoritePhotosChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				5D592A7819F0811200748C76 /* InstagramImage.h */,
+				5D592A7919F0811200748C76 /* InstagramImage.m */,
+				5D592A7519F071C000748C76 /* CollectionViewImageCell.h */,
+				5D592A7619F071C000748C76 /* CollectionViewImageCell.m */,
 				5D592A5019F05F2200748C76 /* AppDelegate.h */,
 				5D592A5119F05F2200748C76 /* AppDelegate.m */,
 				5D592A5319F05F2200748C76 /* ViewController.h */,
@@ -221,6 +231,8 @@
 			files = (
 				5D592A5519F05F2200748C76 /* ViewController.m in Sources */,
 				5D592A5219F05F2200748C76 /* AppDelegate.m in Sources */,
+				5D592A7A19F0811200748C76 /* InstagramImage.m in Sources */,
+				5D592A7719F071C000748C76 /* CollectionViewImageCell.m in Sources */,
 				5D592A4F19F05F2200748C76 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +424,7 @@
 				5D592A6E19F05F2200748C76 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5D592A6F19F05F2200748C76 /* Build configuration list for PBXNativeTarget "FavoritePhotosChallengeTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +433,7 @@
 				5D592A7119F05F2200748C76 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
