@@ -28,16 +28,15 @@
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
 
         for (NSDictionary *result in results[@"data"]) {
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-            dispatch_async(queue, ^{
-                NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:result[@"images"][@"standard_resolution"][@"url"]]];
-                UIImage* image = [[UIImage alloc] initWithData:imageData];
+            NSURL *url = [NSURL URLWithString:result[@"images"][@"standard_resolution"][@"url"]];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
+            [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                UIImage* image = [[UIImage alloc] initWithData:data];
                 [self.images addObject:[InstagramImage createInstagramImage:image]];
                 [self.collectionView reloadData];
-            });
+            }];
         }
-
     }];
 }
 
@@ -50,7 +49,7 @@
 
 -(void)queryInstagram:(NSString *)query{
     [self.images removeAllObjects];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=de07f6709b3a418683cb2f43a2729de2&count=count&callback=callbackFunction=json", query]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?client_id=de07f6709b3a418683cb2f43a2729de2&count=10&callback=callbackFunction=json", query]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
@@ -72,6 +71,8 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.images.count;
 }
+
+
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     CollectionViewImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
