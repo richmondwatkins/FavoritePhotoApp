@@ -16,6 +16,8 @@
 
 @interface CollectionViewImageCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) IBOutlet UIImageView *hiddenImageView;
+
 
 +(CollectionViewImageCell *)createCellForCollectionView:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath ;
 

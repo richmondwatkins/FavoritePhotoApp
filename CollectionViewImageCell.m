@@ -18,6 +18,7 @@
     [doubleTapFolderGesture setNumberOfTouchesRequired:1];
     [cell addGestureRecognizer:doubleTapFolderGesture];
 
+    cell.hiddenImageView.hidden = YES;
 
     return cell;
 }
