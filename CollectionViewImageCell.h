@@ -7,8 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
+@protocol CollectionViewImageCellDelegate
+
+-(void)favoritePhoto:(UITapGestureRecognizer *)sender;
+
+@end
 
 @interface CollectionViewImageCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
+
++(CollectionViewImageCell *)createCellForCollectionView:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath ;
+
+@property id<CollectionViewImageCellDelegate> delegate;
+
+
 
 @end

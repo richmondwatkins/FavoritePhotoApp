@@ -10,4 +10,16 @@
 
 @implementation CollectionViewImageCell
 
++(CollectionViewImageCell *)createCellForCollectionView:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath {
+    CollectionViewImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+
+    UITapGestureRecognizer *doubleTapFolderGesture = [[UITapGestureRecognizer alloc] initWithTarget:cell.delegate action:@selector(favoritePhoto:)];
+    [doubleTapFolderGesture setNumberOfTapsRequired:2];
+    [doubleTapFolderGesture setNumberOfTouchesRequired:1];
+    [cell addGestureRecognizer:doubleTapFolderGesture];
+
+
+    return cell;
+}
+
 @end

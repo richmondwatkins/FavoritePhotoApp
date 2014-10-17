@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "CollectionViewImageCell.h"
 #import "InstagramImage.h"
-@interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate>
+@interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, CollectionViewImageCellDelegate>
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property NSMutableArray *images;
 @end
@@ -73,13 +73,19 @@
 }
 
 
-
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CollectionViewImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+
+    CollectionViewImageCell *cell = [CollectionViewImageCell createCellForCollectionView:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath];
+    cell.delegate = self;
+
+
     InstagramImage *image = [self.images objectAtIndex:indexPath.row];
     cell.imageView.image = image.standardResolution;
     return cell;
 }
 
+-(void)favoritePhoto:(UITapGestureRecognizer *)tap{
+    NSLog(@"in view ctrL");
+}
 
 @end
