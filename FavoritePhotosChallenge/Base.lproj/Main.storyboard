@@ -19,7 +19,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8Zg-5k-b2b">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="595"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gR2-6U-mqz">
-                                    <size key="itemSize" width="258" height="149"/>
+                                    <size key="itemSize" width="461" height="249"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -29,20 +29,21 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="258" height="149"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="461" height="249"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Il9-QK-fXt">
-                                                    <rect key="frame" x="8" y="0.0" width="193" height="124"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="461" height="249"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="Il9-QK-fXt" firstAttribute="top" secondItem="sJn-g1-eww" secondAttribute="top" id="Dgq-5H-MwK"/>
-                                            <constraint firstItem="Il9-QK-fXt" firstAttribute="leading" secondItem="sJn-g1-eww" secondAttribute="leading" constant="8" id="KZY-7J-hn0"/>
-                                            <constraint firstAttribute="trailing" secondItem="Il9-QK-fXt" secondAttribute="trailing" constant="57" id="MhK-ha-vAe"/>
-                                            <constraint firstAttribute="bottom" secondItem="Il9-QK-fXt" secondAttribute="bottom" constant="25" id="laq-c2-clb"/>
+                                            <constraint firstItem="Il9-QK-fXt" firstAttribute="leading" secondItem="sJn-g1-eww" secondAttribute="leading" id="KZY-7J-hn0"/>
+                                            <constraint firstAttribute="trailing" secondItem="Il9-QK-fXt" secondAttribute="trailing" id="MhK-ha-vAe"/>
+                                            <constraint firstAttribute="bottom" secondItem="Il9-QK-fXt" secondAttribute="bottom" id="laq-c2-clb"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="Il9-QK-fXt" id="Nnp-WD-NMB"/>
@@ -73,6 +74,10 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <action selector="queryInstagramApi:" destination="vXZ-lx-hvc" eventType="editingDidEnd" id="gvk-l8-1dw"/>
+                                <outlet property="delegate" destination="vXZ-lx-hvc" id="5m9-Ge-VYr"/>
+                            </connections>
                         </textField>
                     </navigationItem>
                     <connections>
@@ -81,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1252" y="383"/>
+            <point key="canvasLocation" x="1182" y="383"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZY7-MI-r6a">
