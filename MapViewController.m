@@ -42,72 +42,82 @@
 }
 
 -(void)findInstagramLocations{
-//https://api.instagram.com/v1/locations/search?lat=48.858844&lng=2.294351&client_id=de07f6709b3a418683cb2f43a2729de2
+
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?lat=%f&lng=%f&client_id=de07f6709b3a418683cb2f43a2729de2", self.userLocation.latitude, self.userLocation.longitude]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
+//        NSLog(@" FIRST ROUND OF RESULTS %@", results);
         for(NSDictionary *result in results[@"data"]){
-            [self findInstagramPhotosByLocation:(NSString *)result[@"id"]];
+            NSLog(@" ID ID ID ID ID ID ID ID %@", result[@"id"]);
+            [self findInstagramPhotosByLocation:(NSNumber *)result[@"id"]];
         }
     }];
 }
 
 
 
--(void)findInstagramPhotosByLocation:(NSString *)locationId{
+-(void)findInstagramPhotosByLocation:(NSNumber *)locationId{
+    NSLog(@"LOCATION ID %@", locationId);
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?client_id=de07f6709b3a418683cb2f43a2729de2", locationId]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        for(NSDictionary *photoDict in results[@"data"]){
-            [self.coordinatesArray addObject:photoDict[@"location"]];
-//            [self downloadInstagramPhotos:(NSString *)photoDict[@"images"][@"standard_resolution"][@"url"]];
+//        NSLog(@"RESULTS %@", results);
+        NSArray *dataArry = results[@"data"];
+//        NSLog(@"THIS IS THE DATA ARRAY %@", dataArry);
 
-            NSURL *url = [NSURL URLWithString:photoDict[@"images"][@"standard_resolution"][@"url"]];
-            NSURLRequest *request = [NSURLRequest requestWithURL:url];
-
-            [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                UIImage* image = [[UIImage alloc] initWithData:data];
-                [self.imagesArray addObject:image];
-
-                if (self.imagesArray.count == 50) {
-                    [self createMapAnnotations];
-                }
-            }];
+        for(NSDictionary *dic in dataArry){
+            NSLog(@"TEMP DIC %@", dic);
         }
 
+//            for (int i = 0; i <= dataArry.count; i++) {
+//                NSLog(@" DATA ITMEMMMMM %@", dataArry[i]);
+//                ////            NSDictionary *tempDataDict = dataArry[i];
+//                ////            [self downloadInstagramPhotos:(NSString *)tempDataDict[@"images"][@"standard_resolution"][@"url"] withLocation:(NSString *)tempDataDict[@"location"] andCount:i];
+//            }
+
+//        for(NSDictionary *photoDict in results[@"data"]){
+//            [self.coordinatesArray addObject:photoDict[@"location"]];
+//            [self downloadInstagramPhotos:(NSString *)photoDict[@"images"][@"standard_resolution"][@"url"] withLocation:(NSString *)photoDict[@"location"]];
+//        }
     }];
 }
 
--(void)downloadInstagramPhotos:(NSString *)photoURL{
+
+-(void)downloadInstagramPhotos:(NSString *)photoURL withLocation:(NSString *)location andCount:(int)count{
     NSURL *url = [NSURL URLWithString:photoURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         UIImage* image = [[UIImage alloc] initWithData:data];
-        [self.imagesArray addObject:image];
+        NSDictionary *imageDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:image, @"image", location, "location", count, "index", nil];
+//        [self.imagesArray addObject:imageDictionary];
+        [self createMapAnnotations:(NSDictionary *) imageDictionary];
     }];
 }
 
--(void)createMapAnnotations{
-    for(NSDictionary *imageLocation in self.coordinatesArray){
-        NSString *latitude = imageLocation[@"latitude"];
-        NSString *longitude = imageLocation[@"longitude"];
-        CLLocationCoordinate2D coord;
-        coord.latitude = [latitude doubleValue];
-        coord.longitude = [longitude doubleValue];
 
-        MKPointAnnotation *mkPoint = [MKPointAnnotation new];
-        mkPoint.title = imageLocation[@"name"];
-        mkPoint.coordinate = coord;
-
-        [self.mapView addAnnotation:mkPoint];
-//        self.imagesCount += 1;
-        NSLog(@"%lu", (unsigned long)self.coordinatesArray.count);
-    }
-    [self.mapView showAnnotations:self.mapView.annotations animated:YES];
+-(void)createMapAnnotations:(NSDictionary *)locationDictionary{
+    NSLog(@"%@", locationDictionary);
+//    for(NSDictionary *imageLocation in self.coordinatesArray){
+//        NSString *latitude = imageLocation[@"latitude"];
+//        NSString *longitude = imageLocation[@"longitude"];
+//        CLLocationCoordinate2D coord;
+//        coord.latitude = [latitude doubleValue];
+//        coord.longitude = [longitude doubleValue];
+//
+//        MKPointAnnotation *mkPoint = [MKPointAnnotation new];
+//        mkPoint.title = imageLocation[@"name"];
+//        mkPoint.coordinate = coord;
+//
+//        [self.mapView addAnnotation:mkPoint];
+//
+//
+//        NSLog(@"%lu", (unsigned long)self.coordinatesArray.count);
+//    }
+//    [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
@@ -120,14 +130,13 @@
     pin.rightCalloutAccessoryView  = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 
 
-    UIImage *image = [self.imagesArray objectAtIndex:self.imagesCount];
+//    UIImage *image = [self.imagesArray objectAtIndex:self.imagesArray.count -1];
 
-    UIImageView *myImageView = [[UIImageView alloc] initWithImage:image];
-    myImageView.frame = CGRectMake(0,0,50,50);
+//    UIImageView *myImageView = [[UIImageView alloc] initWithImage:image];
+//    myImageView.frame = CGRectMake(0,0,50,50);
+//
+//    pin.leftCalloutAccessoryView = myImageView;
 
-    pin.leftCalloutAccessoryView = myImageView;
-
-    NSLog(@"%@", image);
 //    pin.image = image;
 
     return pin;
