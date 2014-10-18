@@ -18,6 +18,8 @@
 		5D592A7A19F0811200748C76 /* InstagramImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D592A7919F0811200748C76 /* InstagramImage.m */; };
 		5D6F638619F0F0E9001FF098 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F638519F0F0E9001FF098 /* FavoritesViewController.m */; };
 		5D6F638919F0F5D5001FF098 /* FavoriteCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F638819F0F5D5001FF098 /* FavoriteCollectionViewCell.m */; };
+		5DE1CBD419F2E73500F8FFFB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE1CBD319F2E73500F8FFFB /* MapViewController.m */; };
+		5DE1CBD619F2E7FD00F8FFFB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DE1CBD519F2E7FD00F8FFFB /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,9 @@
 		5D6F638519F0F0E9001FF098 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
 		5D6F638719F0F5D5001FF098 /* FavoriteCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteCollectionViewCell.h; sourceTree = "<group>"; };
 		5D6F638819F0F5D5001FF098 /* FavoriteCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteCollectionViewCell.m; sourceTree = "<group>"; };
+		5DE1CBD219F2E73500F8FFFB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ../MapViewController.h; sourceTree = "<group>"; };
+		5DE1CBD319F2E73500F8FFFB /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ../MapViewController.m; sourceTree = "<group>"; };
+		5DE1CBD519F2E7FD00F8FFFB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DE1CBD619F2E7FD00F8FFFB /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +99,9 @@
 		5D592A4B19F05F2200748C76 /* FavoritePhotosChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				5DE1CBD519F2E7FD00F8FFFB /* MapKit.framework */,
+				5DE1CBD219F2E73500F8FFFB /* MapViewController.h */,
+				5DE1CBD319F2E73500F8FFFB /* MapViewController.m */,
 				5D592A7819F0811200748C76 /* InstagramImage.h */,
 				5D592A7919F0811200748C76 /* InstagramImage.m */,
 				5D592A7519F071C000748C76 /* CollectionViewImageCell.h */,
@@ -242,6 +251,7 @@
 				5D592A5519F05F2200748C76 /* ViewController.m in Sources */,
 				5D592A5219F05F2200748C76 /* AppDelegate.m in Sources */,
 				5D6F638619F0F0E9001FF098 /* FavoritesViewController.m in Sources */,
+				5DE1CBD419F2E73500F8FFFB /* MapViewController.m in Sources */,
 				5D592A7A19F0811200748C76 /* InstagramImage.m in Sources */,
 				5D592A7719F071C000748C76 /* CollectionViewImageCell.m in Sources */,
 				5D6F638919F0F5D5001FF098 /* FavoriteCollectionViewCell.m in Sources */,

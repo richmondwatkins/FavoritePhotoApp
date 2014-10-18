@@ -77,7 +77,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="t0a-H7-Zm4">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" image="map" id="vmO-8L-qxh"/>
+                        <barButtonItem key="leftBarButtonItem" image="map" id="vmO-8L-qxh">
+                            <connections>
+                                <segue destination="61E-1Z-rQb" kind="presentation" id="zXM-Ws-zBd"/>
+                            </connections>
+                        </barButtonItem>
                         <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" id="sYv-RQ-vlN">
                             <rect key="frame" x="180" y="7" width="240" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -101,6 +105,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1075" y="395"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="TB2-WO-Els">
+            <objects>
+                <viewController id="61E-1Z-rQb" customClass="MapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ekx-gM-atW"/>
+                        <viewControllerLayoutGuide type="bottom" id="cFm-6k-Gke"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zBg-bX-OXw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lAZ-1Q-MN8">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <connections>
+                                    <outlet property="delegate" destination="61E-1Z-rQb" id="6fJ-ti-ax9"/>
+                                </connections>
+                            </mapView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2PB-M9-1qO">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Pixifly" id="fBu-5T-tcg">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="NXC-zV-jGg">
+                                            <connections>
+                                                <action selector="dissMissViewController:" destination="61E-1Z-rQb" id="PGK-Fk-Yt7"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2PB-M9-1qO" firstAttribute="leading" secondItem="zBg-bX-OXw" secondAttribute="leading" id="0Zz-Bg-sso"/>
+                            <constraint firstAttribute="trailing" secondItem="2PB-M9-1qO" secondAttribute="trailing" id="1qO-66-Otx"/>
+                            <constraint firstItem="2PB-M9-1qO" firstAttribute="top" secondItem="Ekx-gM-atW" secondAttribute="bottom" constant="-20" id="Bry-Mx-ccS"/>
+                            <constraint firstItem="lAZ-1Q-MN8" firstAttribute="top" secondItem="2PB-M9-1qO" secondAttribute="bottom" id="Pfe-tA-rvy"/>
+                            <constraint firstItem="lAZ-1Q-MN8" firstAttribute="top" secondItem="2PB-M9-1qO" secondAttribute="bottom" id="RVG-qg-12r"/>
+                            <constraint firstItem="lAZ-1Q-MN8" firstAttribute="leading" secondItem="zBg-bX-OXw" secondAttribute="leading" id="T8h-nr-5eB"/>
+                            <constraint firstItem="cFm-6k-Gke" firstAttribute="top" secondItem="lAZ-1Q-MN8" secondAttribute="bottom" id="YWf-ME-Nqv"/>
+                            <constraint firstAttribute="trailing" secondItem="lAZ-1Q-MN8" secondAttribute="trailing" id="wy7-tU-9qN"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="lAZ-1Q-MN8" id="bAY-e3-uxs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LLI-Az-TGk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1077" y="1052"/>
         </scene>
         <!--Favorites View Controller-->
         <scene sceneID="H2f-kZ-aXj">
