@@ -71,12 +71,12 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.view endEditing:YES];
+
     [self queryInstagram:textField.text];
     textField.text = @"";
     return YES;
 }
-//self.collectionView.frame.size.height
-//screenRect.size.width
+
 -(void)setUpCollectionView{
 //    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
 //    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -142,14 +142,13 @@
     if (![self.favoritesDictionary  objectForKey:[NSString stringWithFormat:@"%@", image.photoID]]) {
 
         self.selectedCell = [self.cells objectAtIndex:indexPath.row];
-        self.selectedCell.hiddenImageView.hidden = NO;
 
         [self.favoritesDictionary setObject:image forKey:[NSString stringWithFormat:@"%@", image.photoID]];
         [self.favoritesArray addObject:image];
 
         [self saveImage:(InstagramImage *)image];
+        [self.collectionView reloadData];
 
-        [self performSelector:@selector(hideFavoriteImage:) withObject:nil afterDelay:1.5];
     }
 }
 
@@ -184,10 +183,6 @@
     }
 }
 
--(void)hideFavoriteImage:(CollectionViewImageCell *)cell{
-//    self.selectedCell.hiddenImageView.hidden = YES;
-    [self.collectionView reloadData];
-}
 
 
 @end

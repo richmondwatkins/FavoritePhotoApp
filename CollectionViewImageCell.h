@@ -16,7 +16,6 @@
 
 @interface CollectionViewImageCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) IBOutlet UIImageView *hiddenImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *showFavoriteImageView;
 
 

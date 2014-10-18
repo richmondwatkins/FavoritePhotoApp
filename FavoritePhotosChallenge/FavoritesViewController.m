@@ -50,26 +50,22 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)deletePhotoPanGesture:(UIPanGestureRecognizer *)panGesture{
+- (IBAction)deletePhotoPanGesture:(UISwipeGestureRecognizer *)panGesture{
 
-    CGPoint vel = [panGesture velocityInView:self.view];
+    if(panGesture.state == UIGestureRecognizerStateEnded){
+        NSIndexPath *indexPath = [self.favoriteCollectionView indexPathForItemAtPoint:[panGesture locationInView:self.favoriteCollectionView]];
+        NSMutableArray *indexPaths = [NSMutableArray array];
+        [indexPaths addObject:indexPath];
 
-    if (vel.x > 0){
-        if(panGesture.state == UIGestureRecognizerStateEnded){
-            NSIndexPath *indexPath = [self.favoriteCollectionView indexPathForItemAtPoint:[panGesture locationInView:self.favoriteCollectionView]];
-            NSMutableArray *indexPaths = [NSMutableArray array];
-            [indexPaths addObject:indexPath];
+        NSString *deleteFilePath = [self.mutableFavorites  objectAtIndex:indexPath.row];
+        [self.mutableFavorites removeObjectAtIndex:indexPath.row];
+        [self.favoriteCollectionView reloadData];
 
-            NSString *deleteFilePath = [self.mutableFavorites  objectAtIndex:indexPath.row];
-            [self.mutableFavorites removeObjectAtIndex:indexPath.row];
-            [self.favoriteCollectionView reloadData];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *path=[documentsDirectory stringByAppendingPathComponent:deleteFilePath];
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
 
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString *path=[documentsDirectory stringByAppendingPathComponent:deleteFilePath];
-            [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-
-        }
     }
 }
 
