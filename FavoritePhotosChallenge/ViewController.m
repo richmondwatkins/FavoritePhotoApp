@@ -97,16 +97,16 @@
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
 
         for (NSDictionary *result in results[@"data"]) {
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-            dispatch_async(queue, ^{
-                NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:result[@"images"][@"standard_resolution"][@"url"]]];
-                UIImage* image = [[UIImage alloc] initWithData:imageData];
+            NSURL *url = [NSURL URLWithString:result[@"images"][@"standard_resolution"][@"url"]];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
+            [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+                UIImage* image = [[UIImage alloc] initWithData:data];
                 [self.images addObject:[InstagramImage createInstagramImage:image andImageId:(NSString *)result[@"id"]]];
                 [self.collectionView reloadData];
-            });
+            }];
         }
-        
     }];
 }
 
@@ -122,9 +122,14 @@
     [self.cells insertObject:cell atIndex:indexPath.row];
 
     InstagramImage *image = [self.images objectAtIndex:indexPath.row];
+
+    if ([self.favoritesDictionary objectForKey:image.photoID]) {
+        cell.showFavoriteImageView.hidden = NO;
+    }
+
     cell.imageView.image = image.standardResolution;
 
-    cell.hiddenImageView.image = [UIImage imageNamed:@"redheart"];
+
     return cell;
 }
 
@@ -133,13 +138,13 @@
 
     CGPoint tapGesture = [tap locationInView:self.collectionView];
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:tapGesture];
+    InstagramImage *image = [self.images objectAtIndex:indexPath.row];
+    if (![self.favoritesDictionary  objectForKey:[NSString stringWithFormat:@"%@", image.photoID]]) {
 
-    if (![self.favoritesDictionary  objectForKey:[NSString stringWithFormat:@"%@", [self.images objectAtIndex:indexPath.row]]]) {
         self.selectedCell = [self.cells objectAtIndex:indexPath.row];
         self.selectedCell.hiddenImageView.hidden = NO;
-        InstagramImage *image = [self.images objectAtIndex:indexPath.row];
 
-        [self.favoritesDictionary setObject:image forKey:[NSString stringWithFormat:@"%@", image]];
+        [self.favoritesDictionary setObject:image forKey:[NSString stringWithFormat:@"%@", image.photoID]];
         [self.favoritesArray addObject:image];
 
         [self saveImage:(InstagramImage *)image];
@@ -164,7 +169,6 @@
 }
 
 
-
 -(NSURL *)documentsDirectory{
     NSFileManager *fileManger = [NSFileManager defaultManager];
     NSArray *files = [fileManger URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
@@ -181,7 +185,7 @@
 }
 
 -(void)hideFavoriteImage:(CollectionViewImageCell *)cell{
-    self.selectedCell.hiddenImageView.hidden = YES;
+//    self.selectedCell.hiddenImageView.hidden = YES;
     [self.collectionView reloadData];
 }
 

@@ -18,8 +18,10 @@
     [doubleTapFolderGesture setNumberOfTouchesRequired:1];
     [cell addGestureRecognizer:doubleTapFolderGesture];
 
-    cell.hiddenImageView.hidden = YES;
+    cell.hiddenImageView.image = [UIImage imageNamed:@"redheart"];
 
+    cell.hiddenImageView.hidden = YES;
+    cell.showFavoriteImageView.hidden = YES;
     return cell;
 }
 
