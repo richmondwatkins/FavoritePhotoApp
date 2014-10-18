@@ -10,10 +10,11 @@
 
 @implementation InstagramImage
 
-+(InstagramImage *)createInstagramImage:(UIImage *)passedInImage{
++(InstagramImage *)createInstagramImage:(UIImage *)passedInImage andImageId:(NSString *)imageId{
+
     InstagramImage *image = [InstagramImage new];
     image.standardResolution = passedInImage;
-
+    image.photoID = imageId;
     return image;
 }
 

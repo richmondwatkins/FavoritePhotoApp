@@ -19,7 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *hiddenImageView;
 
 
-+(CollectionViewImageCell *)createCellForCollectionView:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath ;
++(CollectionViewImageCell *)createCellForCollectionView:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath;
 
 @property id<CollectionViewImageCellDelegate> delegate;
 

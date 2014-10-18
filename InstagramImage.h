@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface InstagramImage : NSObject
+@interface InstagramImage : UIImage
 
 @property UIImage *standardResolution;
 @property UIImage *thumbnail;
-
-+(InstagramImage *)createInstagramImage:(UIImage *)passedInImage;
+@property NSString *photoID;
++(InstagramImage *)createInstagramImage:(UIImage *)passedInImage andImageId:(NSString *)imageId;
 @end

@@ -9,12 +9,15 @@
 #import "ViewController.h"
 #import "CollectionViewImageCell.h"
 #import "InstagramImage.h"
+#import "FavoritesViewController.h"
 @interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, CollectionViewImageCellDelegate>
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property NSMutableArray *images;
 @property NSMutableArray *cells;
 @property CollectionViewImageCell *selectedCell;
-@property NSMutableDictionary *favorites;
+@property NSMutableDictionary *favoritesDictionary;
+@property NSMutableArray *favoritesArray;
+@property NSArray *saveFavorites;
 @end
 
 @implementation ViewController
@@ -23,10 +26,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+
+    self.saveFavorites = [self load];
+    if (self.saveFavorites) {
+        [self performSegueWithIdentifier:@"favorites" sender:self];
+    }else{
+        [self setUpView];
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self setUpView];
+}
+
+-(void)setUpView{
     [self.collectionView setPagingEnabled:YES];
     self.images = [[NSMutableArray alloc] init];
     self.cells = [[NSMutableArray alloc] init];
-    self.favorites = [[NSMutableDictionary alloc] init];
+    self.favoritesDictionary = [[NSMutableDictionary alloc] init];
+    self.favoritesArray = [[NSMutableArray alloc] init];
 
     [self setUpCollectionView];
 
@@ -41,14 +60,14 @@
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
             [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
                 UIImage* image = [[UIImage alloc] initWithData:data];
-                [self.images addObject:[InstagramImage createInstagramImage:image]];
+                [self.images addObject:[InstagramImage createInstagramImage:image andImageId:(NSString *)result[@"id"]]];
                 [self.collectionView reloadData];
             }];
         }
     }];
 }
-
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.view endEditing:YES];
@@ -56,16 +75,17 @@
     textField.text = @"";
     return YES;
 }
-
+//self.collectionView.frame.size.height
+//screenRect.size.width
 -(void)setUpCollectionView{
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-    [flowLayout setMinimumInteritemSpacing:0.0f];
-    [flowLayout setMinimumLineSpacing:0.0f];
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    [flowLayout setItemSize:CGSizeMake(screenRect.size.width, screenRect.size.height)];
-    [self.collectionView setPagingEnabled:YES];
-    [self.collectionView setCollectionViewLayout:flowLayout];
+//    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+//    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+//    [flowLayout setMinimumInteritemSpacing:0.0f];
+//    [flowLayout setMinimumLineSpacing:2.0f];
+//    CGRect screenRect = [[UIScreen mainScreen] bounds];
+//    [flowLayout setItemSize:CGSizeMake(100, 100)];
+//    [self.collectionView setPagingEnabled:YES];
+//    [self.collectionView setCollectionViewLayout:flowLayout];
 }
 
 
@@ -82,7 +102,7 @@
                 NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:result[@"images"][@"standard_resolution"][@"url"]]];
                 UIImage* image = [[UIImage alloc] initWithData:imageData];
 
-                [self.images addObject:[InstagramImage createInstagramImage:image]];
+                [self.images addObject:[InstagramImage createInstagramImage:image andImageId:(NSString *)result[@"id"]]];
                 [self.collectionView reloadData];
             });
         }
@@ -114,18 +134,56 @@
     CGPoint tapGesture = [tap locationInView:self.collectionView];
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:tapGesture];
 
-    if (![self.favorites objectForKey:[NSString stringWithFormat:@"%@", [self.images objectAtIndex:indexPath.row]]]) {
+    if (![self.favoritesDictionary  objectForKey:[NSString stringWithFormat:@"%@", [self.images objectAtIndex:indexPath.row]]]) {
         self.selectedCell = [self.cells objectAtIndex:indexPath.row];
         self.selectedCell.hiddenImageView.hidden = NO;
-        [self.favorites setObject:[self.images objectAtIndex:indexPath.row] forKey:[NSString stringWithFormat:@"%@", [self.images objectAtIndex:indexPath.row]]];
+        InstagramImage *image = [self.images objectAtIndex:indexPath.row];
+
+        [self.favoritesDictionary setObject:image forKey:[NSString stringWithFormat:@"%@", image]];
+        [self.favoritesArray addObject:image];
+
+        [self saveImage:(InstagramImage *)image];
+
         [self performSelector:@selector(hideFavoriteImage:) withObject:nil afterDelay:1.5];
     }
 }
 
+-(void)saveImage:(InstagramImage *)image{
+    NSString  *pngPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.png", image.photoID]];
+    [UIImagePNGRepresentation(image.standardResolution) writeToFile:pngPath atomically:YES];
+
+    self.saveFavorites = [self load];
+}
+
+
+-(NSArray *)load{
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSError *error;
+    return [fileMgr contentsOfDirectoryAtPath:documentsDirectory error:&error];
+}
+
+
+
+-(NSURL *)documentsDirectory{
+    NSFileManager *fileManger = [NSFileManager defaultManager];
+    NSArray *files = [fileManger URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+    return files.firstObject;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"favorites"]) {
+        FavoritesViewController *favoritesViewCtrler = [segue destinationViewController];
+        favoritesViewCtrler.favoritesDictionary = self.favoritesDictionary;
+        favoritesViewCtrler.favoritesArray = self.favoritesArray;
+        favoritesViewCtrler.savedFavorites = self.saveFavorites;
+    }
+}
 
 -(void)hideFavoriteImage:(CollectionViewImageCell *)cell{
     self.selectedCell.hiddenImageView.hidden = YES;
     [self.collectionView reloadData];
 }
+
 
 @end
