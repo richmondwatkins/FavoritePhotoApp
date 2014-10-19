@@ -74,20 +74,30 @@
 
 
 -(void)downloadInstagramPhotos:(NSDictionary *)instagramJson {
-    NSLog(@"%@", instagramJson);
     NSURL *url = [NSURL URLWithString:instagramJson[@"images"][@"standard_resolution"][@"url"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         UIImage* image = [[UIImage alloc] initWithData:data];
         NSMutableDictionary *imageDictionary = [NSMutableDictionary new];
+//        NSLog(@"%@", instagramJson);
         [imageDictionary setObject:image forKey:@"image"];
         [imageDictionary setObject:instagramJson[@"location"] forKey:@"location"];
         [imageDictionary setObject:instagramJson[@"user"] forKeyedSubscript:@"user"];
+        [imageDictionary setObject:[self formatTime:instagramJson[@"created_time"]] forKey:@"time"];
         [self createMapAnnotations:(NSDictionary *) imageDictionary];
+        NSLog(@"%@", imageDictionary);
     }];
 }
 
+-(NSString *)formatTime:(NSNumber *)timeMil{
+    NSLog(@"%@", timeMil);
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:([timeMil doubleValue] / 1000.0)];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MM/dd/yyyy HH:mm"];
+    NSString *resultString = [formatter stringFromDate:date];
+    return resultString;
+}
 
 -(void)createMapAnnotations:(NSDictionary *)locationDictionary{
     NSString *latitude = locationDictionary[@"location"][@"latitude"];
