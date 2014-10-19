@@ -64,22 +64,25 @@
         NSArray *dataArry = results[@"data"];
         if (dataArry.count) {
             for (NSDictionary *tempDataDict in dataArry) {
-                [self downloadInstagramPhotos:(NSString *)tempDataDict[@"images"][@"thumbnail"][@"url"] withLocation:(NSString *)tempDataDict[@"location"]];
+                NSLog(@"%@", tempDataDict);
+//[self downloadInstagramPhotos:(NSString *)tempDataDict[@"images"][@"standard_resolution"][@"url"] withLocation:(NSString *)tempDataDict[@"location"]];
+                [self downloadInstagramPhotos:tempDataDict];
             }
         }
     }];
 }
 
 
--(void)downloadInstagramPhotos:(NSString *)photoURL withLocation:(NSString *)location {
-    NSURL *url = [NSURL URLWithString:photoURL];
+-(void)downloadInstagramPhotos:(NSDictionary *)instagramJson {
+    NSURL *url = [NSURL URLWithString:instagramJson[@"images"][@"standard_resolution"][@"url"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         UIImage* image = [[UIImage alloc] initWithData:data];
         NSMutableDictionary *imageDictionary = [NSMutableDictionary new];
         [imageDictionary setObject:image forKey:@"image"];
-        [imageDictionary setObject:location forKey:@"location"];
+        [imageDictionary setObject:instagramJson[@"location"] forKey:@"location"];
+        [imageDictionary setObject:instagramJson[@"user"][@"username"] forKeyedSubscript:@"username"];
         [self.imagesArray addObject:imageDictionary];
         [self createMapAnnotations:(NSDictionary *) imageDictionary];
     }];
@@ -94,7 +97,8 @@
     coord.longitude = [longitude doubleValue];
 
     MKPointAnnotation *mkPoint = [MKPointAnnotation new];
-    mkPoint.title = locationDictionary[@"location"][@"name"];
+    mkPoint.title = locationDictionary[@"username"];
+    mkPoint.subtitle = locationDictionary[@"location"][@"name"];
     mkPoint.coordinate = coord;
 
     [self.mapView addAnnotation:mkPoint];
