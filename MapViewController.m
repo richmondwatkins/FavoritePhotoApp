@@ -7,6 +7,7 @@
 //
 
 #import "MapViewController.h"
+#import "PhotoDetailsViewController.h"
 #import <MapKit/MapKit.h>
 @interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
 @property CLLocationManager *locationManger;
@@ -15,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property NSMutableArray *imagesArray;
 @property int imagesCount;
+@property NSDictionary *selectedPhoto;
 @end
 
 @implementation MapViewController
@@ -43,7 +45,7 @@
 
 -(void)findInstagramLocations{
 
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?lat=%0.3f&lng=%0.3f&count=10&client_id=de07f6709b3a418683cb2f43a2729de2", self.userLocation.latitude, self.userLocation.longitude]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?lat=%0.3f&lng=%0.3f&count=20&distance=5000&client_id=de07f6709b3a418683cb2f43a2729de2", self.userLocation.latitude, self.userLocation.longitude]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
@@ -56,7 +58,7 @@
 
 
 -(void)findInstagramPhotosByLocation:(NSNumber *)locationId{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?count=10&client_id=de07f6709b3a418683cb2f43a2729de2", locationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/%@/media/recent?count=20&client_id=de07f6709b3a418683cb2f43a2729de2", locationId]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -64,8 +66,6 @@
         NSArray *dataArry = results[@"data"];
         if (dataArry.count) {
             for (NSDictionary *tempDataDict in dataArry) {
-                NSLog(@"%@", tempDataDict);
-//[self downloadInstagramPhotos:(NSString *)tempDataDict[@"images"][@"standard_resolution"][@"url"] withLocation:(NSString *)tempDataDict[@"location"]];
                 [self downloadInstagramPhotos:tempDataDict];
             }
         }
@@ -82,8 +82,7 @@
         NSMutableDictionary *imageDictionary = [NSMutableDictionary new];
         [imageDictionary setObject:image forKey:@"image"];
         [imageDictionary setObject:instagramJson[@"location"] forKey:@"location"];
-        [imageDictionary setObject:instagramJson[@"user"][@"username"] forKeyedSubscript:@"username"];
-        [self.imagesArray addObject:imageDictionary];
+        [imageDictionary setObject:instagramJson[@"user"] forKeyedSubscript:@"user"];
         [self createMapAnnotations:(NSDictionary *) imageDictionary];
     }];
 }
@@ -97,13 +96,28 @@
     coord.longitude = [longitude doubleValue];
 
     MKPointAnnotation *mkPoint = [MKPointAnnotation new];
-    mkPoint.title = locationDictionary[@"username"];
+    mkPoint.title = locationDictionary[@"user"][@"username"];
     mkPoint.subtitle = locationDictionary[@"location"][@"name"];
     mkPoint.coordinate = coord;
 
-    [self.mapView addAnnotation:mkPoint];
+//    [self.mapView addAnnotation:mkPoint];
+//    [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 
-    [self.mapView showAnnotations:self.mapView.annotations animated:YES];
+    [self findUserProfilePicture:locationDictionary putonMapAfterWith:mkPoint];
+}
+
+-(void)findUserProfilePicture:(NSDictionary *)userDict putonMapAfterWith:(MKPointAnnotation *)mkPoint{
+    NSURL *url = [NSURL URLWithString:userDict[@"user"][@"profile_picture"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        UIImage* image = [[UIImage alloc] initWithData:data];
+        [userDict setValue:image forKey:@"profile_photo"];
+        [self.imagesArray addObject:userDict];
+
+        [self.mapView addAnnotation:mkPoint];
+        [self.mapView showAnnotations:self.mapView.annotations animated:YES];
+    }];
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
@@ -126,17 +140,31 @@
     UIGraphicsEndImageContext();
 
     pin.image = newImage;
+
+    UIImageView *profileImageView = [[UIImageView alloc] initWithImage:imageDictionary[@"profile_photo"]];
+    profileImageView.frame = CGRectMake(0,0,50,50);
+
+    pin.leftCalloutAccessoryView = profileImageView;
+
+
     return pin;
 }
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     for (NSDictionary *imageDict in self.imagesArray) {
-        if ([imageDict[@"location"][@"name"] isEqualToString:view.annotation.title]) {
-            NSLog(@"%@", imageDict);
+        if ([imageDict[@"user"][@"username"] isEqualToString:view.annotation.title]) {
+            self.selectedPhoto = imageDict;
+            [self performSegueWithIdentifier:@"photoDetails" sender:self];
         }
     }
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"photoDetails"]) {
+        PhotoDetailsViewController *photoDetailsCtrl = [segue destinationViewController];
+        photoDetailsCtrl.photoDictionary = self.selectedPhoto;
+    }
+}
 
 
 - (IBAction)dissMissViewController:(id)sender {

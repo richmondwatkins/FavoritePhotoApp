@@ -18,6 +18,8 @@
 		5D592A7A19F0811200748C76 /* InstagramImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D592A7919F0811200748C76 /* InstagramImage.m */; };
 		5D6F638619F0F0E9001FF098 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F638519F0F0E9001FF098 /* FavoritesViewController.m */; };
 		5D6F638919F0F5D5001FF098 /* FavoriteCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F638819F0F5D5001FF098 /* FavoriteCollectionViewCell.m */; };
+		5D7D3E7E19F353BD009D0275 /* PhotoDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D7D3E7D19F353BD009D0275 /* PhotoDetailsViewController.m */; };
+		5D7D3E8019F3779E009D0275 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D7D3E7F19F3779E009D0275 /* Social.framework */; };
 		5DE1CBD419F2E73500F8FFFB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE1CBD319F2E73500F8FFFB /* MapViewController.m */; };
 		5DE1CBD619F2E7FD00F8FFFB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DE1CBD519F2E7FD00F8FFFB /* MapKit.framework */; };
 /* End PBXBuildFile section */
@@ -54,6 +56,9 @@
 		5D6F638519F0F0E9001FF098 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
 		5D6F638719F0F5D5001FF098 /* FavoriteCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteCollectionViewCell.h; sourceTree = "<group>"; };
 		5D6F638819F0F5D5001FF098 /* FavoriteCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteCollectionViewCell.m; sourceTree = "<group>"; };
+		5D7D3E7C19F353BD009D0275 /* PhotoDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoDetailsViewController.h; path = ../PhotoDetailsViewController.h; sourceTree = "<group>"; };
+		5D7D3E7D19F353BD009D0275 /* PhotoDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoDetailsViewController.m; path = ../PhotoDetailsViewController.m; sourceTree = "<group>"; };
+		5D7D3E7F19F3779E009D0275 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		5DE1CBD219F2E73500F8FFFB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ../MapViewController.h; sourceTree = "<group>"; };
 		5DE1CBD319F2E73500F8FFFB /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ../MapViewController.m; sourceTree = "<group>"; };
 		5DE1CBD519F2E7FD00F8FFFB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -64,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D7D3E8019F3779E009D0275 /* Social.framework in Frameworks */,
 				5DE1CBD619F2E7FD00F8FFFB /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,6 +105,7 @@
 		5D592A4B19F05F2200748C76 /* FavoritePhotosChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				5D7D3E7F19F3779E009D0275 /* Social.framework */,
 				5DE1CBD519F2E7FD00F8FFFB /* MapKit.framework */,
 				5DE1CBD219F2E73500F8FFFB /* MapViewController.h */,
 				5DE1CBD319F2E73500F8FFFB /* MapViewController.m */,
@@ -115,6 +122,8 @@
 				5D6F638519F0F0E9001FF098 /* FavoritesViewController.m */,
 				5D6F638719F0F5D5001FF098 /* FavoriteCollectionViewCell.h */,
 				5D6F638819F0F5D5001FF098 /* FavoriteCollectionViewCell.m */,
+				5D7D3E7C19F353BD009D0275 /* PhotoDetailsViewController.h */,
+				5D7D3E7D19F353BD009D0275 /* PhotoDetailsViewController.m */,
 				5D592A5919F05F2200748C76 /* Images.xcassets */,
 				5D592A5B19F05F2200748C76 /* LaunchScreen.xib */,
 				5D592A4C19F05F2200748C76 /* Supporting Files */,
@@ -250,6 +259,7 @@
 			files = (
 				5D592A5519F05F2200748C76 /* ViewController.m in Sources */,
 				5D592A5219F05F2200748C76 /* AppDelegate.m in Sources */,
+				5D7D3E7E19F353BD009D0275 /* PhotoDetailsViewController.m in Sources */,
 				5D6F638619F0F0E9001FF098 /* FavoritesViewController.m in Sources */,
 				5DE1CBD419F2E73500F8FFFB /* MapViewController.m in Sources */,
 				5D592A7A19F0811200748C76 /* InstagramImage.m in Sources */,
