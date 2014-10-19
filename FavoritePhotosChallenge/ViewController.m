@@ -128,10 +128,7 @@
     }
 
     cell.imageView.image = image.standardResolution;
-    
 
-    cell.layer.shouldRasterize = YES;
-    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
 
     return cell;
 }

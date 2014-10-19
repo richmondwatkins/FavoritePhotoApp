@@ -33,10 +33,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="438" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Il9-QK-fXt">
-                                                    <rect key="frame" x="41" y="0.0" width="356" height="300"/>
-                                                    <gestureRecognizers/>
-                                                </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hearticon2" translatesAutoresizingMaskIntoConstraints="NO" id="0vp-ta-PNv">
                                                     <rect key="frame" x="336" y="252" width="58" height="48"/>
                                                 </imageView>
@@ -44,17 +40,12 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="Il9-QK-fXt" secondAttribute="bottom" id="DkH-y6-42T"/>
-                                            <constraint firstItem="Il9-QK-fXt" firstAttribute="leading" secondItem="sJn-g1-eww" secondAttribute="leading" constant="41" id="IUY-Pw-2lc"/>
                                             <constraint firstItem="0vp-ta-PNv" firstAttribute="top" secondItem="sJn-g1-eww" secondAttribute="top" constant="252" id="MaA-Vh-1FI"/>
-                                            <constraint firstItem="Il9-QK-fXt" firstAttribute="top" secondItem="sJn-g1-eww" secondAttribute="top" id="T7s-Cm-f43"/>
-                                            <constraint firstAttribute="trailing" secondItem="Il9-QK-fXt" secondAttribute="trailing" constant="41" id="V4a-Od-6to"/>
                                             <constraint firstItem="0vp-ta-PNv" firstAttribute="leading" secondItem="sJn-g1-eww" secondAttribute="leading" constant="336" id="Xa8-OS-GNd"/>
                                             <constraint firstAttribute="trailing" secondItem="0vp-ta-PNv" secondAttribute="trailing" constant="44" id="qP1-IB-gvC"/>
                                             <constraint firstAttribute="bottom" secondItem="0vp-ta-PNv" secondAttribute="bottom" id="yhc-W5-kJA"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="imageView" destination="Il9-QK-fXt" id="Nnp-WD-NMB"/>
                                             <outlet property="showFavoriteImageView" destination="0vp-ta-PNv" id="WXz-Mo-Vec"/>
                                         </connections>
                                     </collectionViewCell>
