@@ -41,7 +41,7 @@
 }
 
 -(void)setUpView{
-    [self.collectionView setPagingEnabled:YES];
+//    [self.collectionView setPagingEnabled:YES];
     self.images = [[NSMutableArray alloc] init];
     self.cells = [[NSMutableArray alloc] init];
     self.favoritesDictionary = [[NSMutableDictionary alloc] init];
@@ -128,7 +128,10 @@
     }
 
     cell.imageView.image = image.standardResolution;
+    
 
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
 
     return cell;
 }
@@ -138,6 +141,7 @@
 
     CGPoint tapGesture = [tap locationInView:self.collectionView];
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:tapGesture];
+
     InstagramImage *image = [self.images objectAtIndex:indexPath.row];
     if (![self.favoritesDictionary  objectForKey:[NSString stringWithFormat:@"%@", image.photoID]]) {
 

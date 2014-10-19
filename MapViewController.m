@@ -74,6 +74,7 @@
 
 
 -(void)downloadInstagramPhotos:(NSDictionary *)instagramJson {
+    NSLog(@"%@", instagramJson);
     NSURL *url = [NSURL URLWithString:instagramJson[@"images"][@"standard_resolution"][@"url"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
@@ -99,9 +100,6 @@
     mkPoint.title = locationDictionary[@"user"][@"username"];
     mkPoint.subtitle = locationDictionary[@"location"][@"name"];
     mkPoint.coordinate = coord;
-
-//    [self.mapView addAnnotation:mkPoint];
-//    [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 
     [self findUserProfilePicture:locationDictionary putonMapAfterWith:mkPoint];
 }
