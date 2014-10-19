@@ -43,7 +43,7 @@
 
 -(void)findInstagramLocations{
 
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?lat=%f&lng=%f&count=10&client_id=de07f6709b3a418683cb2f43a2729de2", self.userLocation.latitude, self.userLocation.longitude]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?lat=%0.3f&lng=%0.3f&count=10&client_id=de07f6709b3a418683cb2f43a2729de2", self.userLocation.latitude, self.userLocation.longitude]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
@@ -64,7 +64,7 @@
         NSArray *dataArry = results[@"data"];
         if (dataArry.count) {
             for (NSDictionary *tempDataDict in dataArry) {
-                [self downloadInstagramPhotos:(NSString *)tempDataDict[@"images"][@"standard_resolution"][@"url"] withLocation:(NSString *)tempDataDict[@"location"]];
+                [self downloadInstagramPhotos:(NSString *)tempDataDict[@"images"][@"thumbnail"][@"url"] withLocation:(NSString *)tempDataDict[@"location"]];
             }
         }
     }];
@@ -99,7 +99,6 @@
 
     [self.mapView addAnnotation:mkPoint];
 
-    [self.mapView selectAnnotation:mkPoint animated:YES];
     [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 }
 
@@ -115,14 +114,23 @@
 
     NSDictionary *imageDictionary = self.imagesArray.lastObject;
     UIImage *image = imageDictionary[@"image"];
-    UIImageView *myImageView = [[UIImageView alloc] initWithImage:image];
-    myImageView.frame = CGRectMake(0,0,50,50);
 
-    pin.leftCalloutAccessoryView = myImageView;
+    CGSize size = CGSizeMake(50, 50);
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 
-//    pin.image = myImageView.image;
-
+    pin.image = newImage;
     return pin;
+}
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+    for (NSDictionary *imageDict in self.imagesArray) {
+        if ([imageDict[@"location"][@"name"] isEqualToString:view.annotation.title]) {
+            NSLog(@"%@", imageDict);
+        }
+    }
 }
 
 
