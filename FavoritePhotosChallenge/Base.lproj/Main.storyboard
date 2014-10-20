@@ -123,30 +123,64 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2PB-M9-1qO">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <items>
-                                    <navigationItem title="Pixifly" id="fBu-5T-tcg">
+                                    <navigationItem id="fBu-5T-tcg">
+                                        <nil key="title"/>
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="NXC-zV-jGg">
                                             <connections>
                                                 <action selector="dissMissViewController:" destination="61E-1Z-rQb" id="PGK-Fk-Yt7"/>
                                             </connections>
                                         </barButtonItem>
+                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="W2z-EY-lhQ">
+                                            <rect key="frame" x="180" y="8" width="240" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="Map"/>
+                                                <segment title="List"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="toggleSegmentControl:" destination="61E-1Z-rQb" eventType="valueChanged" id="pkm-Sy-vPh"/>
+                                            </connections>
+                                        </segmentedControl>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ei3-ex-AhT">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="InstaCell" id="uMX-xU-bom">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uMX-xU-bom" id="zif-wG-0KC">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="61E-1Z-rQb" id="AJr-fX-Tv8"/>
+                                    <outlet property="delegate" destination="61E-1Z-rQb" id="1lJ-PE-XsJ"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2PB-M9-1qO" firstAttribute="leading" secondItem="zBg-bX-OXw" secondAttribute="leading" id="0Zz-Bg-sso"/>
                             <constraint firstAttribute="trailing" secondItem="2PB-M9-1qO" secondAttribute="trailing" id="1qO-66-Otx"/>
+                            <constraint firstItem="Ei3-ex-AhT" firstAttribute="top" secondItem="2PB-M9-1qO" secondAttribute="bottom" id="8rT-m5-Dro"/>
+                            <constraint firstItem="Ei3-ex-AhT" firstAttribute="leading" secondItem="zBg-bX-OXw" secondAttribute="leading" id="AN7-tC-kQH"/>
                             <constraint firstItem="2PB-M9-1qO" firstAttribute="top" secondItem="Ekx-gM-atW" secondAttribute="bottom" constant="-20" id="Bry-Mx-ccS"/>
                             <constraint firstItem="lAZ-1Q-MN8" firstAttribute="top" secondItem="2PB-M9-1qO" secondAttribute="bottom" id="Pfe-tA-rvy"/>
                             <constraint firstItem="lAZ-1Q-MN8" firstAttribute="top" secondItem="2PB-M9-1qO" secondAttribute="bottom" id="RVG-qg-12r"/>
                             <constraint firstItem="lAZ-1Q-MN8" firstAttribute="leading" secondItem="zBg-bX-OXw" secondAttribute="leading" id="T8h-nr-5eB"/>
+                            <constraint firstItem="cFm-6k-Gke" firstAttribute="top" secondItem="Ei3-ex-AhT" secondAttribute="bottom" id="U4B-No-vrh"/>
                             <constraint firstItem="cFm-6k-Gke" firstAttribute="top" secondItem="lAZ-1Q-MN8" secondAttribute="bottom" id="YWf-ME-Nqv"/>
+                            <constraint firstAttribute="trailing" secondItem="Ei3-ex-AhT" secondAttribute="trailing" id="l9B-W4-Ue8"/>
                             <constraint firstAttribute="trailing" secondItem="lAZ-1Q-MN8" secondAttribute="trailing" id="wy7-tU-9qN"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="lAZ-1Q-MN8" id="bAY-e3-uxs"/>
+                        <outlet property="tableView" destination="Ei3-ex-AhT" id="EDF-58-uT5"/>
                         <segue destination="nyR-Gn-YJT" kind="presentation" identifier="photoDetails" id="BEC-Im-kyd"/>
                     </connections>
                 </viewController>

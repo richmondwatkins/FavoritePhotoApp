@@ -9,7 +9,7 @@
 #import "MapViewController.h"
 #import "PhotoDetailsViewController.h"
 #import <MapKit/MapKit.h>
-@interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
+@interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>
 @property CLLocationManager *locationManger;
 @property CLLocationCoordinate2D userLocation;
 @property NSMutableArray *coordinatesArray;
@@ -18,6 +18,7 @@
 @property int imagesCount;
 @property NSDictionary *selectedPhoto;
 @property (nonatomic, strong) NSURLSession *session;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -31,7 +32,7 @@
     [self.locationManger requestWhenInUseAuthorization];
     self.locationManger.delegate = self;
     [self.locationManger startUpdatingLocation];
-
+    self.tableView.hidden = YES;
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
@@ -164,6 +165,22 @@
     return pin;
 }
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.imagesArray.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"InstaCell"];
+
+    NSDictionary *imageDict = [self.imagesArray objectAtIndex:indexPath.row];
+    cell.imageView.image = imageDict[@"image"];
+
+    cell.textLabel.text = imageDict[@"user"][@"full_name"];
+
+    return cell;
+}
+
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     for (NSDictionary *imageDict in self.imagesArray) {
         if ([imageDict[@"user"][@"username"] isEqualToString:view.annotation.title] && [imageDict[@"time"]isEqualToString:view.annotation.subtitle]) {
@@ -180,6 +197,15 @@
     }
 }
 
+- (IBAction)toggleSegmentControl:(UISegmentedControl *)segment {
+
+    if (segment.selectedSegmentIndex) {
+        self.tableView.hidden = NO;
+        [self.tableView reloadData];
+    }else{
+        self.tableView.hidden = YES;
+    }
+}
 
 - (IBAction)dissMissViewController:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
