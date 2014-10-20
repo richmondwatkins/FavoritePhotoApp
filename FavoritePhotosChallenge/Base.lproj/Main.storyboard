@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8Zg-5k-b2b">
-                                <rect key="frame" x="0.0" y="59" width="600" height="541"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="623"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="gR2-6U-mqz">
                                     <size key="itemSize" width="438" height="300"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -65,10 +65,10 @@
                             <constraint firstItem="8Zg-5k-b2b" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="7mY-im-LgX"/>
                             <constraint firstAttribute="trailing" secondItem="8Zg-5k-b2b" secondAttribute="trailing" id="7mx-W9-sIq"/>
                             <constraint firstItem="8Zg-5k-b2b" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="QsQ-Op-NLE"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="8Zg-5k-b2b" secondAttribute="bottom" id="SM9-gi-Fci"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="8Zg-5k-b2b" secondAttribute="bottom" constant="-87" id="SM9-gi-Fci"/>
                             <constraint firstAttribute="centerX" secondItem="8Zg-5k-b2b" secondAttribute="centerX" id="awn-Sy-ofi"/>
                             <constraint firstAttribute="trailing" secondItem="8Zg-5k-b2b" secondAttribute="trailing" id="wjw-NL-2lg"/>
-                            <constraint firstItem="8Zg-5k-b2b" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="59" id="zH4-MT-7uJ"/>
+                            <constraint firstItem="8Zg-5k-b2b" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="64" id="zH4-MT-7uJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="t0a-H7-Zm4">

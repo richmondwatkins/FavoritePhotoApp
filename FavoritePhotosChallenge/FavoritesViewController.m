@@ -54,9 +54,7 @@
     [mailComposer setMessageBody:@"your custom body content" isHTML:NO];
     [self presentViewController:mailComposer animated:YES completion:nil];
 }
-- (void)mailComposeController:(MFMailComposeViewController*)controller
-          didFinishWithResult:(MFMailComposeResult)result
-                        error:(NSError*)error
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
     if(error) NSLog(@"ERROR - mailComposeController: %@", [error localizedDescription]);
     [self dismissViewControllerAnimated:YES completion:nil];

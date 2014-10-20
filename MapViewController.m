@@ -17,6 +17,8 @@
 @property NSMutableArray *imagesArray;
 @property int imagesCount;
 @property NSDictionary *selectedPhoto;
+@property (nonatomic, strong) NSURLSession *session;
+
 @end
 
 @implementation MapViewController
@@ -45,7 +47,12 @@
 
 -(void)findInstagramLocations{
 
+
+
+
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.instagram.com/v1/locations/search?lat=%0.3f&lng=%0.3f&count=20&distance=5000&client_id=de07f6709b3a418683cb2f43a2729de2", self.userLocation.latitude, self.userLocation.longitude]];
+
+
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSMutableDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
@@ -80,7 +87,6 @@
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         UIImage* image = [[UIImage alloc] initWithData:data];
         NSMutableDictionary *imageDictionary = [NSMutableDictionary new];
-//        NSLog(@"%@", instagramJson);
         [imageDictionary setObject:image forKey:@"image"];
         [imageDictionary setObject:instagramJson[@"location"] forKey:@"location"];
         [imageDictionary setObject:instagramJson[@"user"] forKeyedSubscript:@"user"];
@@ -108,7 +114,7 @@
 
     MKPointAnnotation *mkPoint = [MKPointAnnotation new];
     mkPoint.title = locationDictionary[@"user"][@"username"];
-    mkPoint.subtitle = locationDictionary[@"location"][@"name"];
+    mkPoint.subtitle = locationDictionary[@"time" ];
     mkPoint.coordinate = coord;
 
     [self findUserProfilePicture:locationDictionary putonMapAfterWith:mkPoint];
@@ -160,7 +166,7 @@
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     for (NSDictionary *imageDict in self.imagesArray) {
-        if ([imageDict[@"user"][@"username"] isEqualToString:view.annotation.title]) {
+        if ([imageDict[@"user"][@"username"] isEqualToString:view.annotation.title] && [imageDict[@"time"]isEqualToString:view.annotation.subtitle]) {
             self.selectedPhoto = imageDict;
             [self performSegueWithIdentifier:@"photoDetails" sender:self];
         }

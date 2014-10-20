@@ -121,7 +121,10 @@
 
     [self.cells insertObject:cell atIndex:indexPath.row];
 
-    InstagramImage *image = [self.images objectAtIndex:indexPath.row];
+    NSInteger indexOfCurrentCollectionCell = [indexPath item];
+
+
+    InstagramImage *image = [self.images objectAtIndex:indexOfCurrentCollectionCell];
 
     if ([self.favoritesDictionary objectForKey:image.photoID]) {
         cell.showFavoriteImageView.hidden = NO;
